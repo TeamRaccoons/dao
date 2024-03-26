@@ -45,7 +45,6 @@ impl<'info> Validate<'info> for MergePartialUnstaking<'info> {
         let lock_duration = unwrap_int!(self
             .escrow
             .get_remaining_duration_until_expiration(current_time, &self.locker));
-        // can only merge if partial_unstaking.expiration - current_time < remaining_duration
         require!(
             lock_duration >= self.locker.params.min_stake_duration,
             crate::ErrorCode::LockupDurationTooShort
