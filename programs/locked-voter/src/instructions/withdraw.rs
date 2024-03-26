@@ -90,7 +90,12 @@ impl<'info> Validate<'info> for Withdraw<'info> {
         let expiration = self.escrow.escrow_ends_at;
         let now = Clock::get()?.unix_timestamp;
         msg!("now: {}; escrow_ends_at: {}", now, expiration);
-        invariant!(expiration < now, EscrowNotEnded);
+        invariant!(expiration <= now, EscrowNotEnded);
+
+        invariant!(
+            self.escrow.partial_unstaking_amount == 0,
+            PartialUnstakingAmountIsNotZero
+        );
 
         Ok(())
     }

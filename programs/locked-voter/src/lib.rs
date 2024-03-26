@@ -97,6 +97,24 @@ pub mod locked_voter {
     pub fn set_locker_params(ctx: Context<SetLockerParams>, params: LockerParams) -> Result<()> {
         ctx.accounts.set_locker_params(params)
     }
+
+    /// Open partial unstaking
+    #[access_control(ctx.accounts.validate())]
+    pub fn open_partial_unstaking(ctx: Context<OpenPartialUnstaking>, amount: u64) -> Result<()> {
+        ctx.accounts.open_partial_unstaking(amount)
+    }
+
+    /// Merge partial unstaking
+    #[access_control(ctx.accounts.validate())]
+    pub fn merge_partial_unstaking(ctx: Context<MergePartialUnstaking>) -> Result<()> {
+        ctx.accounts.merge_partial_unstaking()
+    }
+
+    /// Merge partial unstaking
+    #[access_control(ctx.accounts.validate())]
+    pub fn withdraw_partial_unstaking(ctx: Context<WithdrawPartialUnstaking>) -> Result<()> {
+        ctx.accounts.withdraw_partial_unstaking()
+    }
 }
 
 /// [voter] errors.
@@ -120,4 +138,16 @@ pub enum ErrorCode {
     ExpirationIsNotZero,
     #[msg("Amount is zero")]
     AmountIsZero,
+    #[msg("Maxlock is not set")]
+    MaxLockIsNotSet,
+    #[msg("Invalid amount for partial unstaking")]
+    InvalidAmountForPartialUnstaking,
+    #[msg("Escrow has been ended")]
+    EscrowHasBeenEnded,
+    #[msg("Invalid unstaking lock duration")]
+    InvalidUnstakingLockDuration,
+    #[msg("Partial unstaking amount is not zero")]
+    PartialUnstakingAmountIsNotZero,
+    #[msg("Partial unstaking has not ended")]
+    PartialUnstakingIsNotEnded,
 }

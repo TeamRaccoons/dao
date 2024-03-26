@@ -75,9 +75,12 @@ pub struct Escrow {
 
     /// Max lock
     pub is_max_lock: bool,
-
+    /// total amount of partial unstaking amount
+    pub partial_unstaking_amount: u64,
+    /// padding for further use
+    pub padding: u64,
     /// buffer for further use
-    pub buffers: [u128; 10],
+    pub buffers: [u128; 9],
 }
 
 impl Escrow {
@@ -134,6 +137,44 @@ impl Escrow {
         let duration = self.escrow_ends_at.checked_sub(current_time)?;
         Some(duration as u64)
     }
+    /// accumuate partial unstaking amount
+    pub fn accumulate_partial_unstaking_amount(&mut self, amount: u64) -> Option<()> {
+        self.amount = self.amount.checked_sub(amount)?;
+        self.partial_unstaking_amount = self.partial_unstaking_amount.checked_add(amount)?;
+        Some(())
+    }
+
+    /// accumuate partial unstaking amount
+    pub fn merge_partial_unstaking_amount(&mut self, amount: u64) -> Option<()> {
+        self.amount = self.amount.checked_add(amount)?;
+        self.partial_unstaking_amount = self.partial_unstaking_amount.checked_sub(amount)?;
+        Some(())
+    }
+
+    /// withdraw partial unstaking amount
+    pub fn withdraw_partial_unstaking_amount(&mut self, amount: u64) -> Option<()> {
+        self.partial_unstaking_amount = self.partial_unstaking_amount.checked_sub(amount)?;
+        Some(())
+    }
+}
+
+/// Account to store infor for partial unstaking
+#[account]
+#[derive(Copy, Debug, Default)]
+pub struct PartialUnstaking {
+    /// The [Escrow] pubkey.
+    pub escrow: Pubkey,
+    /// Amount of this partial unstaking
+    pub amount: u64,
+    /// Timestamp when owner can withdraw the partial unstaking amount
+    pub expiration: i64,
+    /// buffer for further use
+    pub buffers: [u128; 6],
+}
+
+impl PartialUnstaking {
+    /// LEN of PartialUnstaking
+    pub const LEN: usize = std::mem::size_of::<Pubkey>() + 8 + 8 + 16 * 6;
 }
 
 #[cfg(test)]
