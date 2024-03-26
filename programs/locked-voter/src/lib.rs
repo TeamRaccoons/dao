@@ -110,7 +110,7 @@ pub mod locked_voter {
         ctx.accounts.merge_partial_unstaking()
     }
 
-    /// Merge partial unstaking
+    /// Withdraw partial unstaking
     #[access_control(ctx.accounts.validate())]
     pub fn withdraw_partial_unstaking(ctx: Context<WithdrawPartialUnstaking>) -> Result<()> {
         ctx.accounts.withdraw_partial_unstaking()
