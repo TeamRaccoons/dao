@@ -11,7 +11,7 @@ pub struct MergePartialUnstaking<'info> {
     #[account(mut, has_one = locker, has_one = owner)]
     pub escrow: Box<Account<'info, Escrow>>,
 
-    /// The [Escrow] that is being closed.
+    /// The [PartialUnstaking] that is being merged.
     #[account(mut, has_one = escrow, close = owner)]
     pub partial_unstake: Box<Account<'info, PartialUnstaking>>,
 

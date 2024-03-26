@@ -12,7 +12,7 @@ pub struct WithdrawPartialUnstaking<'info> {
     #[account(mut, has_one = locker, has_one= owner)]
     pub escrow: Box<Account<'info, Escrow>>,
 
-    /// The [Escrow] that is being closed.
+    /// The [PartialUnstaking] that is being withdraw.
     #[account(mut, has_one = escrow, close = payer)]
     pub partial_unstake: Box<Account<'info, PartialUnstaking>>,
 

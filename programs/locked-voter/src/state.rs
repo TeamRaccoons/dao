@@ -137,14 +137,14 @@ impl Escrow {
         let duration = self.escrow_ends_at.checked_sub(current_time)?;
         Some(duration as u64)
     }
-    /// accumuate partial unstaking amount
+    /// accumulate partial unstaking amount
     pub fn accumulate_partial_unstaking_amount(&mut self, amount: u64) -> Option<()> {
         self.amount = self.amount.checked_sub(amount)?;
         self.partial_unstaking_amount = self.partial_unstaking_amount.checked_add(amount)?;
         Some(())
     }
 
-    /// accumuate partial unstaking amount
+    /// accumulate partial unstaking amount
     pub fn merge_partial_unstaking_amount(&mut self, amount: u64) -> Option<()> {
         self.amount = self.amount.checked_add(amount)?;
         self.partial_unstaking_amount = self.partial_unstaking_amount.checked_sub(amount)?;
