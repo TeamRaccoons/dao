@@ -27,7 +27,6 @@ pub struct OpenPartialUnstaking<'info> {
 }
 
 impl<'info> OpenPartialUnstaking<'info> {
-    /// Creates a new [Locker].
     pub fn open_partial_unstaking(&mut self, amount: u64) -> Result<()> {
         let partial_unstake_pk = self.partial_unstake.key();
         let escrow_pk = self.escrow.key();

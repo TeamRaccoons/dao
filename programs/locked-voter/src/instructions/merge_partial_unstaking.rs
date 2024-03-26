@@ -20,7 +20,6 @@ pub struct MergePartialUnstaking<'info> {
 }
 
 impl<'info> MergePartialUnstaking<'info> {
-    /// Creates a new [Locker].
     pub fn merge_partial_unstaking(&mut self) -> Result<()> {
         let partial_unstake_pk = self.partial_unstake.key();
         let escrow_pk = self.escrow.key();
