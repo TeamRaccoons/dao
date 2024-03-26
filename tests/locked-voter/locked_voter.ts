@@ -55,7 +55,6 @@ describe("Locked voter", () => {
   const quorumVotes: BN = new BN(2); // 2 vote to pass
 
   // Voter config
-  const expiration: BN = new BN(10); // 10 seconds to 2nd phase
   const maxStakeDuration: BN = new BN(20); // 20 seconds
   const minStakeDuration: BN = new BN(10); // 10 seconds
   const maxStakeVoteMultiplier: number = 1;

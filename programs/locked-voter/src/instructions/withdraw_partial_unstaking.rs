@@ -57,7 +57,9 @@ impl<'info> WithdrawPartialUnstaking<'info> {
 
         // update the locker
         let locker = &mut self.locker;
-        locker.locked_supply = unwrap_int!(locker.locked_supply.checked_sub(self.escrow.amount));
+        locker.locked_supply = unwrap_int!(locker
+            .locked_supply
+            .checked_sub(self.partial_unstake.amount));
 
         unwrap_int!(self
             .escrow
